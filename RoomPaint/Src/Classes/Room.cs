@@ -25,8 +25,8 @@ namespace RoomPaint
             }
         }
 
-        public int Doors { get; set; }
-        public int Windows { get; set; }
+        public List<Door> Doors { get; set; }
+        public List<Window> Windows { get; set; }
 
         private double floorWidth;
         private double floorLength;
@@ -45,30 +45,8 @@ namespace RoomPaint
             floorLength = length;
             roomHeight = height;
 
-            walls = new List<Wall>
-            {
-                new Wall(width, height),
-                new Wall(width, height),
-                new Wall(length, height),
-                new Wall(length, height)
-            };
-        }
-
-        /// <summary>
-        /// Create an instance of room
-        /// </summary>
-        /// <param name="width">Width of the room</param>
-        /// <param name="length">Length of the room</param>
-        /// <param name="height">Height of the room</param>
-        /// <param name="doors">Number of room doors</param>
-        /// <param name="windows">Number of room windows</param>
-        public Room(double width, double length, double height, int doors, int windows)
-        {
-            floorWidth = width;
-            floorLength = length;
-            roomHeight = height;
-            Doors = doors;
-            Windows = windows;
+            Doors = new List<Door>();
+            Windows = new List<Window>();
 
             walls = new List<Wall>
             {
@@ -79,4 +57,4 @@ namespace RoomPaint
             };
         }
     }
-}
+} 

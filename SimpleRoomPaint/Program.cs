@@ -9,47 +9,49 @@ namespace SimpleRoomPaint
     /// </summary>
     class Program
     {
-        private static void Main(string[] args)
+        static void Main(string[] args)
         {
             while (true)
             {
-                int coats = 1, windows = 0, doors = 1;
+                double paint = 0.0;
+                int coats = 1;
 
-                Console.WriteLine("Input Dimensions for new room:");
+                Console.WriteLine("\nPlease enter dimensions for new room: ");
 
-                // Get the room inputs and dimensions 
-                Room room = CreateRoom();
+                // Setup new room
+                var inputs = GetRoomInputs();
 
-                Console.WriteLine("Number of Windows: ");
-                int.TryParse(Console.ReadLine(), out windows);
+                SetupRoom.Setup(inputs.Item1, inputs.Item2, inputs.Item3);
 
-                Console.WriteLine("Number of Doors: ");
-                int.TryParse(Console.ReadLine(), out doors);
+                // Get window and door inputs
+                GetDoorInputs();
+                GetWindowInputs();
 
-                room.Windows = windows;
-                room.Doors = doors;
+                // Setup paint service
+                Room current = SetupRoom.CurrentRoom;
+                PaintService<Room> paintService = new PaintService<Room>(current);
 
-                // Paint service setup
-                PaintService<Room> paintService = new PaintService<Room>(room);
 
-                Console.WriteLine($"Floor Area: {room.Area} \n Room Volume: { room.Volume }");
+                Console.WriteLine("How many coats of paint?");
+                int.TryParse(Console.ReadLine(), out  coats);
 
-                Console.WriteLine("Number of coats: ");
-                int.TryParse(Console.ReadLine(), out coats);
+                paint = paintService.PaintRoom(coats);
 
-                // Calculate the paint needed
-                double paint = Math.Round(paintService.PaintRoom(coats), 1);
-                Console.WriteLine($"Paint Required {paint} litres \n");
+                string output = $"\nRoom Volume: {current.Volume}" +
+                                $"\nRoom Area: {current.Area}" +
+                                $"\nPaint required (litres): {paint}\n";
+
+                Console.WriteLine(output);
             }
         }
 
         /// <summary>
-        /// Create new room from user inputs
+        /// Returns user room inputs
         /// </summary>
         /// <returns></returns>
-        private static Room CreateRoom()
+        static (double, double, double) GetRoomInputs()
         {
-            double width = 0, length = 0, height = 0;
+            double width = 0.0, length = 0.0, height = 0.0;
 
             Console.WriteLine("Room Width (m): ");
             double.TryParse(Console.ReadLine(), out width);
@@ -60,7 +62,36 @@ namespace SimpleRoomPaint
             Console.WriteLine("Room Height (m): ");
             double.TryParse(Console.ReadLine(), out height);
 
-            return new Room(width, length, height);
+            return (width, length, height);
+        }
+
+        /// <summary>
+        /// Get window inputs for room
+        /// </summary>
+        static void GetWindowInputs()
+        {
+            int windows = 0;
+
+            Console.WriteLine("How many windows?");
+            int.TryParse(Console.ReadLine(), out windows);
+
+            SetupRoom.AddWindows(windows);
+        }
+
+        /// <summary>
+        /// Get door inputs for room
+        /// </summary>
+        static void GetDoorInputs()
+        {
+            int doorsDouble = 0, doorsSingle = 0;
+
+            Console.WriteLine("How many double doors?");
+            int.TryParse(Console.ReadLine(), out doorsDouble);
+
+            Console.WriteLine("How many single doors?");
+            int.TryParse(Console.ReadLine(), out doorsSingle);
+
+            SetupRoom.AddDoors(doorsDouble, doorsSingle);
         }
     }
 }

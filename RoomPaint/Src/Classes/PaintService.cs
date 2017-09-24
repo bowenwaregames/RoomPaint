@@ -31,17 +31,13 @@ namespace RoomPaint
         /// <returns></returns>
         public double PaintRoom(int coats, double paintCoverage = 10)
         {
-            // For now we will only assume the door/window areas
-            double doorArea = 24;
-            double windowArea = 18;
-
             double wallLengths = Room.walls.Sum(w => w.Length);
 
             // Assume the first wall is height for all walls for simplicity 
             double totalWallArea = wallLengths * Room.walls.First().Height;
 
-            double totalWindowArea = Room.Windows * windowArea;
-            double totalDoorArea = Room.Doors * doorArea;
+            double totalWindowArea = Room.Windows.Sum(w => w.Area);
+            double totalDoorArea = Room.Doors.Sum(d => d.Area);
 
             // Remove window and door areas from total wall area
             totalWallArea -= (totalWindowArea + totalDoorArea);

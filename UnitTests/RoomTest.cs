@@ -29,11 +29,12 @@ namespace UnitTests
         public void PaintRoom()
         {
             int numOfCoats = 1;
-            int doors = 1;
-            int windows = 1;
-            double expectedAmount = 0.7, width = 4.2, length = 6.1, height = 2.4;
+            double expectedAmount = 4.8, width = 4.2, length = 6.1, height = 2.4;
 
-            Room room = new Room(width, length, height, doors, windows);
+            Room room = new Room(width, length, height);
+
+            room.Windows.Add(new Window());
+            room.Doors.Add(new Door(DoorType.Single));
 
             PaintService<Room> paintService = new PaintService<Room>(room);
 
