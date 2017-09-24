@@ -8,13 +8,7 @@
         public double Length { get; set; }
         public double Height { get; set; }
 
-        public double Area
-        {
-            get
-            {
-                return Length * Height;
-            }
-        }
+        public double Area => Length * Height;
 
         public Window()
         {

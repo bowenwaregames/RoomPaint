@@ -9,21 +9,9 @@ namespace RoomPaint
     {
         public List<Wall> walls { get; set; }
 
-        public double Area
-        {
-            get
-            {
-                return floorWidth * floorLength;
-            }
-        }
+        public double Area => floorWidth * floorLength;
 
-        public double Volume
-        {
-            get
-            {
-                return Area * roomHeight;
-            }
-        }
+        public double Volume => Area * roomHeight;
 
         public List<Door> Doors { get; set; }
         public List<Window> Windows { get; set; }
